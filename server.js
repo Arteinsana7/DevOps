@@ -5,6 +5,9 @@ const { connectDB } = require('./config/database')
 const app = express()
 app.use(express.json())
 
+const authRouter = require('./routes/auth')
+app.use('/api/auth', authRouter)
+
 const joueursRouter = require('./routes/joueurs')
 app.use('/api', joueursRouter)
 

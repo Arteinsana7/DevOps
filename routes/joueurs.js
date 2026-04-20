@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
+const auth = require('../middlewares/auth')
 
 const DB_PATH = path.join(__dirname, '../data/joueurs.JSON')
 function getJoueurs() {
@@ -11,6 +12,14 @@ function getJoueurs() {
 // METHODE TO GET ALL PLAYERS //
 router.get('/joueurs', (req, res) => {
     res.json(getJoueurs())
+})
+
+// METHODE TO SEARCH ONE PLAYER //
+router.get('/joueurs/search', (req, res) => {
+    const { nom } = req.query
+    if (!nom) return res.status(400).json({ message: 'Paramètre "nom" requis' })
+    const resultats = getJoueurs().filter(j => j.nom.toLowerCase().includes(nom.toLowerCase()))
+    res.json(resultats)
 })
 
 // METHODE TO CHANGE THE IDs OF EACH PLAYER
@@ -35,7 +44,7 @@ router.get('/joueurs/:id', (req, res) => {
 })
 
 // METHODE TO POST ONE PLAYER //
-router.post('/joueurs', (req,res) => {
+router.post('/joueurs',  auth, async (req,res) => {
     const joueurs = getJoueurs()
     const  {idEquipe, nom, numero, poste} = req.body
     const newId = joueurs.length > 0 ? Math.max(...joueurs.map(j => j.id)) + 1 : 1
@@ -46,8 +55,20 @@ router.post('/joueurs', (req,res) => {
 })
 
 
+
+// METHODE TO UPDATE A PLAYER //
+router.put('/joueurs/:id', auth, async (req, res) => {
+    const joueurs = getJoueurs()
+    const index = joueurs.findIndex(j => j.id === parseInt(req.params.id))
+    if (index === -1) return res.status(404).json({ message: 'Joueur non trouvé' })
+    joueurs[index] = { ...joueurs[index], ...req.body }
+    fs.writeFileSync(DB_PATH, JSON.stringify(joueurs, null, 2))
+    res.json(joueurs[index])
+})
+
+
 // METHODE TO GET TEAM BY PLAYER ID //
-router.delete('/joueurs/:id', (req, res) => {
+router.delete('/joueurs/:id',  auth, async (req, res) => {
     const joueurs = getJoueurs()
     const index = joueurs.findIndex(j => j.id === parseInt(req.params.id))
     if (index === -1) return res.status(404).json({ message: 'Joueur non trouvé' })

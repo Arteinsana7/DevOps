@@ -3,7 +3,7 @@
     "id": 1,
     "idEquipe": 10,
     "nom": "Mbappé",
-    "numero": 7,
+    "numero": 10,
     "poste": "Attaquant"
   },
   {
@@ -18,6 +18,20 @@
     "idEquipe": 11,
     "nom": "Benzema",
     "numero": 9,
+    "poste": "Attaquant"
+  },
+  {
+    "id": 4,
+    "idEquipe": 12,
+    "nom": "Griezmann",
+    "numero": 7,
+    "poste": "Attaquant"
+  },
+  {
+    "id": 6,
+    "idEquipe": 12,
+    "nom": "Griezmann",
+    "numero": 7,
     "poste": "Attaquant"
   }
 ]
