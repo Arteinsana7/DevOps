@@ -1,11 +1,25 @@
+require('dotenv').config()
 const express = require('express')
-const app = express()
+const { connectDB } = require('./config/database')
 
+const app = express()
 app.use(express.json())
 
 const joueursRouter = require('./routes/joueurs')
 app.use('/api', joueursRouter)
 
-app.listen(3000, () => {
-  console.log('Serveur lancé sur http://localhost:3000')
-})
+const PORT = process.env.PORT || 3000
+
+async function startServer() {
+  try {
+    await connectDB()
+    app.listen(PORT, () => {
+      console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`)
+    })
+  } catch (err) {
+    console.error('❌ Erreur:', err)
+    process.exit(1)
+  }
+}
+
+startServer()

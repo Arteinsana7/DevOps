@@ -8,11 +8,23 @@ function getJoueurs() {
     const data = fs.readFileSync(DB_PATH, 'utf-8')
     return JSON.parse(data)
 }
-// METHODE TO GET ALL PALYERS //
+// METHODE TO GET ALL PLAYERS //
 router.get('/joueurs', (req, res) => {
     res.json(getJoueurs())
 })
 
+// METHODE TO CHANGE THE IDs OF EACH PLAYER
+router.get('/joueurs/:id/equipe', (req, res) => {
+    const joueur = getJoueurs().find(j => j.id === parseInt(req.params.id))
+    if (!joueur) return res.status(404).json({ message: 'Joueur non trouvé' })
+    res.json({ idEquipe: joueur.idEquipe })
+})
+
+router.get('/equipes/:id/joueurs', (req,res) => {
+    const joueurs = getJoueurs().filter(j => j.idEquipe === parseInt(req.params.id))
+    if (joueurs.length === 0) return res.status(404).json({ message: 'Aucun joueur pour cette équipe' })
+    res.json(joueurs)
+  })
 
 // METHODE TO GET ALL PLAYERS EACH ONE BY ID //
 router.get('/joueurs/:id', (req, res) => {
@@ -33,16 +45,8 @@ router.post('/joueurs', (req,res) => {
     res.status(201).json(newJoueur)
 })
 
-// METHODE TO CHANGE THE IDs OF EACH PLAYER
-router.put('/joueurs/:id', (req, res) => {
-    const joueurs = getJoueurs()
-    const index = joueurs.findIndex(j => j.id === parseInt(req.params.id))
-    if (index === -1) return res.status(404).json({message : 'joueur non trouvé'})
-        joueurs[index] = {...joueurs[index], ...req.body}
-    fs.writeFileSync(DB_PATH, JSON.stringify(joueurs, null, 2))
-    res.json(joueurs[index])
-})
 
+// METHODE TO GET TEAM BY PLAYER ID //
 router.delete('/joueurs/:id', (req, res) => {
     const joueurs = getJoueurs()
     const index = joueurs.findIndex(j => j.id === parseInt(req.params.id))
