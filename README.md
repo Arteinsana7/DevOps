@@ -104,6 +104,15 @@ L'authentification fonctionne en 3 étapes :
 ### GET search un joueur 
 ![GET par id](./screenshots/GET_Search.png)
 
+### GET EQUIPES
+![GET tous les joueurs](./screenshots/GET_EQUIPES.png)
+
+### GET EQUIPES By ID
+![GET tous les joueurs](./screenshots/GET_EQUIPE_ID.png)
+
+### POST EQUIPES
+![GET tous les joueurs](./screenshots/GET_EQUIPE_ID.png)
+
 ### POST créer un joueur une fois connecté (TOKEN)
 ![POST joueur](./screenshots/POST_PAYER_WITH_TOKEN.png)
 
@@ -114,10 +123,10 @@ L'authentification fonctionne en 3 étapes :
 ![POST joueur](./screenshots/POST_CREATE_USER.png)
 
 ### PUT modifier un joueur
-![PUT joueur](./screenshots/)
+![PUT joueur](./screenshots/PUT_PLAYER.png)
 
 ### DELETE supprimer un joueur
-![DELETE joueur](./screenshots/)
+![DELETE joueur](./screenshots/DELETE_PLAYER.png)
 
 
 ---

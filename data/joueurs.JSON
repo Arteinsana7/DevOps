@@ -14,13 +14,6 @@
     "poste": "Défenseur"
   },
   {
-    "id": 3,
-    "idEquipe": 11,
-    "nom": "Benzema",
-    "numero": 9,
-    "poste": "Attaquant"
-  },
-  {
     "id": 4,
     "idEquipe": 12,
     "nom": "Griezmann",

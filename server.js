@@ -11,6 +11,9 @@ app.use('/api/auth', authRouter)
 const joueursRouter = require('./routes/joueurs')
 app.use('/api', joueursRouter)
 
+const equipeRouter = require('./routes/equipes')
+app.use('/api', equipeRouter)
+
 const PORT = process.env.PORT || 3000
 
 async function startServer() {
