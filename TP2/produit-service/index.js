@@ -8,7 +8,7 @@ const isAuthenticated = require('./isAuthenticated') // Middleware
 app.use(express.json());
 
 mongoose.set('strictQuery', true);
-mongoose.connect("mongodb://localhost/produit-service")
+mongoose.connect("mongodb://db:27017/produit-service")
   .then(() => console.log(`Produit-Service DB Connected`))
   .catch(err => console.error(err));
 

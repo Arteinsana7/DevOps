@@ -8,7 +8,7 @@ const isAuthenticated = require('./isAuthenticated') // Middleware
 
 app.use(express.json());
 
-mongoose.connect("mongodb://localhost/commande-service")
+mongoose.connect("mongodb://db:27017/commande-service")
   .then(() => console.log(`Commande-Service DB Connected`))
   .catch(err => console.error(err));
 
@@ -24,7 +24,7 @@ function prixTotal(produits) {
 //CALL HTTP to service produit
 async function httpRequest(ids) {
   try {
-    const URL = "http://localhost:4000/produit/acheter"
+    const URL = "http://produits:4000/produit/acheter"
     const response = await axios.get(URL, {
       data: { ids: ids },
       headers: { 'Content-Type': 'application/json' }

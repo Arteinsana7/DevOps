@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs');
 
 app.use(express.json());
 
-mongoose.connect("mongodb://localhost/auth-service")
+mongoose.connect("mongodb://db:27017/auth-service")
   .then(() => console.log(`Auth-Service DB Connected`))
   .catch(err => console.error(err));
 
