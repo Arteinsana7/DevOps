@@ -53,4 +53,4 @@ docker-compose up --build
 
 ## Auteur
 
-Eliana — Apprentie développeuse  ecv - M1
+Eliana Yepez / Apprentie développeuse  ecv - M1
