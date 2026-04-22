@@ -5,12 +5,13 @@ services:
     container_name: db
     image: mongo
     volumes:
-      - ./data:/data/db
+      - ${WEBAPP_STORAGE_HOME}/data:/data/db
     ports:
       - "27018:27017"
 
   produits:
-    build: ./produit-service
+    image: arteinsana/devops-app:produits.v1
+    build: ${WEBAPP_STORAGE_HOME}/produit-service
     container_name: produit-service
     ports:
       - "5003:4000"
@@ -20,7 +21,8 @@ services:
       - db
 
   authentification:
-    build: ./auth-service
+    image: arteinsana/devops-app:auth.v1
+    build: ${WEBAPP_STORAGE_HOME}/auth-service
     container_name: auth-service
     ports:
       - "5002:4002"
@@ -30,7 +32,8 @@ services:
       - db
 
   commande:
-    build: ./commande-service
+    image: arteinsana/devops-app:commande.v1
+    build: ${WEBAPP_STORAGE_HOME}/commande-service
     container_name: commande-service
     ports:
       - "5001:4001"
@@ -43,7 +46,7 @@ services:
 
   frontend:
     image: arteinsana/devops-app:frontend.v1
-    build: ./frontend-service
+    build: ${WEBAPP_STORAGE_HOME}/frontend-service
     container_name: frontend-service
     ports:
       - "8080:8080"
