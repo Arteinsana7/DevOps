@@ -40,3 +40,12 @@ services:
       - authentification
       - produits
       - db
+
+  frontend:
+    image: arteinsana/devops-app:frontend.v1
+    build: ./frontend-service
+    container_name: frontend-service
+    ports:
+      - "8080:8080"
+    volumes:
+      - /app/node_modules
