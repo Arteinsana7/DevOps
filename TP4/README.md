@@ -131,7 +131,7 @@ az webapp config appsettings set \
 ```
 
 ### 7.7 URL de l'application
-https://devops-arteinsana.azurewebsites.net
+https://devops-frontend.nicesky-cf0b641a.westeurope.azurecontainerapps.io
 
 ### 7.7 Problème rencontré — Quota dépassé = "state": "QuotaExceeded"
 
@@ -140,6 +140,47 @@ Le plan gratuit **Free F1** d'Azure a une limite de 60 minutes CPU par jour. Le 
 ### 7.8 Alternative — Render
 
 Render est une plateforme cloud gratuite qui supporte nativement les conteneurs Docker et Docker Hub sans limitations de quota. Le processus est similaire :
+
+### 7.8 Solution — Azure Container Apps
+
+Azure App Service Free F1 ne supporte pas les conteneurs Docker (quota CPU dépassé, timeout au démarrage). 
+
+La solution a été d'utiliser **Azure Container Apps** — un service plus moderne adapté aux conteneurs.
+
+Problème supplémentaire : l'image buildée sur Mac M1/M2 était en architecture **ARM64**, incompatible avec Azure qui nécessite **AMD64**. Il a fallu rebuilder l'image avec buildx :
+
+```bash
+docker buildx build --platform linux/amd64 \
+  -t arteinsana/devops-app:frontend.v1-amd64 \
+  ./frontend-service --push
+```
+
+Création de l'environnement Container Apps :
+
+```bash
+az provider register -n Microsoft.OperationalInsights --wait
+az containerapp env create \
+  --name devops-env \
+  --resource-group devops-tp4 \
+  --location westeurope
+```
+
+Déploiement du frontend :
+
+```bash
+az containerapp create \
+  --name devops-frontend \
+  --resource-group devops-tp4 \
+  --environment devops-env \
+  --image arteinsana/devops-app:frontend.v1-amd64 \
+  --target-port 8080 \
+  --ingress external \
+  --cpu 0.25 \
+  --memory 0.5Gi
+```
+
+URL de l'application déployée :
+https://devops-frontend.nicesky-cf0b641a.westeurope.azurecontainerapps.io
 
 1. Connecter le repository Docker Hub
 2. Sélectionner l'image `arteinsana/devops-app:frontend.v1`
